@@ -494,8 +494,23 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const codedLetters = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+  let temp = '';
+  let res = '';
+  let k;
+
+  for (let i = 0; str.length > i; i += 1) {
+    temp = str[i];
+    if (letters.includes(temp)) {
+      k = letters.indexOf(temp);
+      res += codedLetters[k];
+    } else {
+      res += str[i];
+    }
+  }
+  return res;
 }
 
 /**
@@ -509,10 +524,10 @@ function encodeToRot13(/* str */) {
  *  'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
  *
  * (see https://en.wikipedia.org/wiki/Standard_52-card_deck)
- * Function returns the zero-based index of specified card in the initial deck above.
+ * Function returns the zero-based id of specified card in the initial deck above.
  *
  * @param {string} value - The card value.
- * @return {number} - The zero-based index.
+ * @return {number} - The zero-based id.
  *
  * @example
  *   'A♣' => 0
@@ -522,8 +537,69 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let id;
+
+  switch (value[0]) {
+    case 'A':
+      id = 0;
+      break;
+    case '2':
+      id = 1;
+      break;
+    case '3':
+      id = 2;
+      break;
+    case '4':
+      id = 3;
+      break;
+    case '5':
+      id = 4;
+      break;
+    case '6':
+      id = 5;
+      break;
+    case '7':
+      id = 6;
+      break;
+    case '8':
+      id = 7;
+      break;
+    case '9':
+      id = 8;
+      break;
+    case '1':
+      id = 9;
+      break;
+    case 'J':
+      id = 10;
+      break;
+    case 'Q':
+      id = 11;
+      break;
+    case 'K':
+      id = 12;
+      break;
+    default:
+      break;
+  }
+
+  switch (value[value.length - 1]) {
+    case '♣':
+      break;
+    case '♦':
+      id += 13;
+      break;
+    case '♥':
+      id += 13 * 2;
+      break;
+    case '♠':
+      id += 13 * 3;
+      break;
+    default:
+      break;
+  }
+  return id;
 }
 
 module.exports = {
